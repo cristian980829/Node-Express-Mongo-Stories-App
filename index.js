@@ -11,6 +11,9 @@ app.use( express.static('public') );
 app.use( express.json() );
 
 
+//Routes
+app.use('/api/auth', require('./routes/auth') );
+
 // listening request
 app.listen( process.env.PORT, () => {
     console.log(`Servidor running in port ${ process.env.PORT }`);
