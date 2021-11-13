@@ -5,16 +5,32 @@ const User = require('../models/User');
 
 const createUser = async(req, res = response ) => {
 
-    console.log(req.body)
     const { email, password } = req.body;
 
-    res.status(201).json({
+    try {
+        
+        user = new User( req.body );
+    
+        //Password encrypt
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync( password, salt );
+
+        console.log(user);
+        await user.save();
+    
+        res.status(201).json({
             ok: true,
-            email,
-            password
+            uid: user.id,
+            name: user.name
         })
-
-
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'An error occurred'
+        });
+    }
 }
 
 module.exports = {
