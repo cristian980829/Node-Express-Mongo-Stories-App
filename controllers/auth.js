@@ -87,10 +87,24 @@ const loginUser = async(req, res = response ) => {
             msg: 'An error occurred'
         });
     }
+}
 
+
+const revalidateToken = async (req, res = response ) => {
+
+    const { uid, name } = req;
+
+    // Generate JWT
+    const token = await generateJWT( uid, name );
+
+    res.json({
+        ok: true,
+        token
+    })
 }
 
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    revalidateToken
 }
