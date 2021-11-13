@@ -32,6 +32,9 @@ const createUser = async(req, res = response ) => {
             ok: true,
             uid: user.id,
             name: user.name,
+            urlimage: user.urlimage,
+            email: user.email,
+            rol: user.rol,
             token
         });
         
@@ -76,6 +79,9 @@ const loginUser = async(req, res = response ) => {
             ok: true,
             uid: user.id,
             name: user.name,
+            urlimage: user.urlimage,
+            email: user.email,
+            rol: user.rol,
             token
         })
 
