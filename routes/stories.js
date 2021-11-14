@@ -4,13 +4,15 @@ const { check } = require('express-validator');
 const { isDate } = require('../helpers/isDate');
 const { validateFields } = require('../middlewares/validateFields');
 const { validateJWT } = require('../middlewares/validate-jwt');
-const {  createStorie } = require('../controllers/stories');
+const {  createStorie, getStories } = require('../controllers/stories');
 
 const router = Router();
 
 // All requests must go through jwt validation
 router.use( validateJWT );
 
+// Get stories 
+router.get('/', getStories );
 
 // Create a new storie
 router.post(

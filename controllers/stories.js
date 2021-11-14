@@ -1,6 +1,17 @@
 const { response } = require('express');
 const Storie = require('../models/Storie');
 
+const getStories = async( req, res = response ) => {
+
+    const stories = await Storie.find()
+                                .populate('user','name');
+
+    res.json({
+        ok: true,
+        stories
+    });
+}
+
 const createStorie = async ( req, res = response ) => {
 
     const storie = new Storie( req.body );
@@ -28,5 +39,6 @@ const createStorie = async ( req, res = response ) => {
 
 
 module.exports = {
-    createStorie
+    createStorie,
+    getStories
 }
