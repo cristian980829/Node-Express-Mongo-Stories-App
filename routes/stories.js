@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { isDate } = require('../helpers/isDate');
 const { validateFields } = require('../middlewares/validateFields');
 const { validateJWT } = require('../middlewares/validate-jwt');
-const {  createStorie, getStories } = require('../controllers/stories');
+const {  createStorie, getStories, updateStorie } = require('../controllers/stories');
 
 const router = Router();
 
@@ -24,6 +24,18 @@ router.post(
         validateFields
     ],
     createStorie 
+);
+
+// Update storie
+router.put(
+    '/:id', 
+    [
+        check('title','Title is required').not().isEmpty(),
+        check('description','Description is required').not().isEmpty(),
+        check('registration_date','Registration date invalid').custom( isDate ),
+        validateFields
+    ],
+    updateStorie 
 );
 
 
