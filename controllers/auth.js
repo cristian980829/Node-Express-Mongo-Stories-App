@@ -100,12 +100,21 @@ const revalidateToken = async (req, res = response ) => {
 
     const { uid, name } = req;
 
+    const user = await User.findOne({ uid });
+
+    console.log(user);
+
     // Generate JWT
     const token = await generateJWT( uid, name );
 
     res.json({
         ok: true,
-        token
+        token,
+        uid,
+        name,
+        email: user.email,
+        urlimage: user.urlimage,
+        rol: user.rol
     })
 }
 
