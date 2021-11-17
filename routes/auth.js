@@ -15,7 +15,6 @@ router.post(
         check('email', 'Email is required').isEmail(),
         check('password', 'Password must be 6 characters').isLength({ min: 6 }),
         check('urlimage', 'Url Image is required').not().isEmpty(),
-        check('rol', 'Rol is required').not().isEmpty(),
         validateFields
     ],
     createUser 

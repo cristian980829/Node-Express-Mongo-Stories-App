@@ -1,10 +1,13 @@
 const { response } = require('express');
 const Storie = require('../models/Storie');
+const moment = require('moment');
 
 const getStories = async( req, res = response ) => {
 
     const stories = await Storie.find()
                                 .populate('user','name');
+
+    stories.sort((a,b) => moment(b.registration_date).format('X') - moment(a.registration_date).format('X'))
 
     res.json({
         ok: true,
