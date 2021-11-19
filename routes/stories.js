@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { isDate } = require('../helpers/isDate');
 const { validateFields } = require('../middlewares/validateFields');
 const { validateJWT } = require('../middlewares/validate-jwt');
-const {  createStorie, getStories, updateStorie, deleteStorie, getStoriesById } = require('../controllers/stories');
+const {  createStorie, getStories, updateStorie, deleteStorie } = require('../controllers/stories');
 
 const router = Router();
 
@@ -13,9 +13,6 @@ router.use( validateJWT );
 
 // Get stories 
 router.get('/', getStories );
-
-// Get stories for id
-router.get('/:id', getStoriesById );
 
 // Create a new storie
 router.post(

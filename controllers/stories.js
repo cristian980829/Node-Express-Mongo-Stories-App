@@ -15,20 +15,6 @@ const getStories = async( req, res = response ) => {
     });
 }
 
-const getStoriesById = async( req, res = response ) => {
-
-    const storieId = req.params.id;
-
-    const stories = await Storie.find( {"user" : storieId} );
-
-    stories.sort((a,b) => moment(b.registration_date).format('X') - moment(a.registration_date).format('X'))
-
-    res.json({
-        ok: true,
-        stories
-    });
-}
-
 const createStorie = async ( req, res = response ) => {
 
     const storie = new Storie( req.body );
@@ -145,6 +131,5 @@ module.exports = {
     createStorie,
     getStories,
     updateStorie,
-    deleteStorie,
-    getStoriesById
+    deleteStorie
 }
