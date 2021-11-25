@@ -86,12 +86,12 @@ const updateUserPassword = async( req, res = response ) => {
 const updateUser = async( req, res = response ) => {
     
     //User Id that will be updated
-    const { name, urlimage, rol, _id } = req.body;
+    const { name, urlimage, rol, uid } = req.body;
     //User Id who is going to do the update
-    const uid = req.uid;
+    const { uid: userId } = req;
     
     try {
-        const user = await User.findById( uid );
+        const user = await User.findById( userId );
         
         if ( !user ) {
             return res.status(400).json({
@@ -100,7 +100,7 @@ const updateUser = async( req, res = response ) => {
             });
         }
 
-        const userToUpdate = await User.findById( _id );
+        const userToUpdate = await User.findById( uid );
         
         if ( !userToUpdate ) {
             return res.status(400).json({
@@ -113,7 +113,7 @@ const updateUser = async( req, res = response ) => {
         //admin or a common user
         if(user.rol==='USER'){
             await User.updateOne(
-                { _id: _id },
+                { _id: uid },
                 {
                     $set: {
                         name,
@@ -123,7 +123,7 @@ const updateUser = async( req, res = response ) => {
             )
         }else if(user.rol==='ADMIN'){
             await User.updateOne(
-                { _id: _id },
+                { _id: uid },
                 {
                     $set: {
                         name,
