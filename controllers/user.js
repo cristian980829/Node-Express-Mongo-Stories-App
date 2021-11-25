@@ -24,20 +24,21 @@ const getUserById = async( req, res = response ) => {
 
 const updateUserPassword = async( req, res = response ) => {
     
-    const { email, password, newPassword } = req.body;
+    const { password, newPassword } = req.body;
+
+    const uid = req.uid;
 
     
     try {
-        
-        const user = await User.findOne({ email });
+
+        const user = await User.findById( uid );
         
         if ( !user ) {
             return res.status(400).json({
                 ok: false,
-                msg: "Email doesn't exist"
+                msg: "User doesn't exist"
             });
         }
-        
         
         
         // Confirmar password
@@ -56,8 +57,8 @@ const updateUserPassword = async( req, res = response ) => {
         
 
         //Update password
-        const passwordUpdated = await User.updateOne(
-            { email: email },
+        await User.updateOne(
+            { _id: uid },
             {
                 $set: {
                     password: newPasswordEncrypt,
@@ -82,7 +83,74 @@ const updateUserPassword = async( req, res = response ) => {
 
 }
 
+const updateUser = async( req, res = response ) => {
+    
+    //User Id that will be updated
+    const { name, urlimage, rol, _id } = req.body;
+    //User Id who is going to do the update
+    const uid = req.uid;
+    
+    try {
+        const user = await User.findById( uid );
+        
+        if ( !user ) {
+            return res.status(400).json({
+                ok: false,
+                msg: "User doesn't exist"
+            });
+        }
+
+        const userToUpdate = await User.findById( _id );
+        
+        if ( !userToUpdate ) {
+            return res.status(400).json({
+                ok: false,
+                msg: "User doesn't exist"
+            });
+        }
+        
+        //Check if the person who is going to perform the update is an 
+        //admin or a common user
+        if(user.rol==='USER'){
+            await User.updateOne(
+                { _id: _id },
+                {
+                    $set: {
+                        name,
+                        urlimage
+                    }
+                }
+            )
+        }else if(user.rol==='ADMIN'){
+            await User.updateOne(
+                { _id: _id },
+                {
+                    $set: {
+                        name,
+                        urlimage,
+                        rol
+                    }
+                }
+            )
+        }
+
+
+        res.json({
+            ok: true
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'An error ocurred'
+        });
+    }
+
+}
+
 module.exports = {
     getUserById,
-    updateUserPassword
+    updateUserPassword,
+    updateUser
 }
