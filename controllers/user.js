@@ -12,7 +12,7 @@ const getUserById = async( req, res = response ) => {
     res.json({
         ok: true,
         user: {
-            _id, 
+            uid: _id, 
             name, 
             email, 
             urlimage, 
