@@ -2,23 +2,40 @@ const { response } = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+const getUsers = async( req, res = response ) => {
+
+    const users = await User.find()
+                                .populate('email');
+
+    res.json({
+        ok: true,
+        users
+    });
+}
+
 const getUserById = async( req, res = response ) => {
 
     const userId = req.params.id;
 
-    const user = await User.find( {"_id" : userId} );
-    const { _id, name, email, urlimage, rol } = user[0];
+    try{
+        const user = await User.find( {"_id" : userId} );
+        const { _id, name, email, urlimage, rol } = user[0];
+    
+        res.json({
+            ok: true,
+            user: {
+                uid: _id, 
+                name, 
+                email, 
+                urlimage, 
+                rol 
+            }
+        });
 
-    res.json({
-        ok: true,
-        user: {
-            uid: _id, 
-            name, 
-            email, 
-            urlimage, 
-            rol 
-        }
-    });
+    }catch(error){
+        console.log(error)
+    }
+
 
 }
 
@@ -152,5 +169,6 @@ const updateUser = async( req, res = response ) => {
 module.exports = {
     getUserById,
     updateUserPassword,
-    updateUser
+    updateUser,
+    getUsers
 }

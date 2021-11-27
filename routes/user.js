@@ -3,12 +3,15 @@ const { check } = require('express-validator');
 
 const { validateJWT } = require('../middlewares/validate-jwt');
 const { validateFields } = require('../middlewares/validateFields');
-const {  getUserById, updateUserPassword, updateUser } = require('../controllers/user');
+const {  getUserById, updateUserPassword, updateUser, getUsers } = require('../controllers/user');
 
 const router = Router();
 
 // All requests must go through jwt validation
 router.use( validateJWT );
+
+// Get users 
+router.get('/', getUsers );
 
 // Get user by id
 router.get('/:id', getUserById );
