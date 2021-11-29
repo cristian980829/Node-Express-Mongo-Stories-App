@@ -26,5 +26,5 @@ app.use('/api/user', require('./routes/user') );
 
 // listening request
 app.listen( process.env.PORT, () => {
-    console.log(`Servidor running in port ${ process.env.PORT }`);
+    console.log(`Server running in port ${ process.env.PORT }`);
 });
