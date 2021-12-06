@@ -26,7 +26,7 @@ const createUser = async(req, res = response ) => {
         user.password = bcrypt.hashSync( password, salt );
 
         await user.save();
-        // Generar JWT
+        // Generate JWT
         const token = await generateJWT( user.id, user.name );
     
         res.status(201).json({
@@ -63,7 +63,7 @@ const loginUser = async(req, res = response ) => {
             });
         }
 
-        // Confirmar password
+        // Confirm password
         const validPassword = bcrypt.compareSync( password, user.password );
 
         if ( !validPassword ) {

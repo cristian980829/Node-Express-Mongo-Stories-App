@@ -12,7 +12,6 @@ const validateFields = (req, res = response, next) => {
         });
     }
 
-
     next();
 }
 
