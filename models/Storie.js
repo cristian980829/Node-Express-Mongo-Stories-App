@@ -13,6 +13,10 @@ const StorieSchema = Schema({
         type: Date,
         required: true
     },
+    urlImages: {
+        type: [],
+        required: true
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
