@@ -99,22 +99,33 @@ const loginUser = async(req, res = response ) => {
 
 const revalidateToken = async (req, res = response ) => {
 
-    const { uid, name } = req;
+    try{
 
-    const user = await User.findById( uid );
+        const { uid, name } = req;
+    
+        const user = await User.findById( uid );
+    
+        // Generate JWT
+        const token = await generateJWT( uid, name );
+    
+        res.json({
+            ok: true,
+            token,
+            uid,
+            name: user.name,
+            email: user.email,
+            urlimage: user.urlimage,
+            rol: user.rol
+        })
 
-    // Generate JWT
-    const token = await generateJWT( uid, name );
+    } catch (error){
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'An error occurred'
+        });
+    }
 
-    res.json({
-        ok: true,
-        token,
-        uid,
-        name: user.name,
-        email: user.email,
-        urlimage: user.urlimage,
-        rol: user.rol
-    })
 }
 
 module.exports = {

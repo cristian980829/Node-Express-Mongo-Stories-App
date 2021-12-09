@@ -4,13 +4,23 @@ const bcrypt = require('bcryptjs');
 
 const getUsers = async( req, res = response ) => {
 
-    const users = await User.find()
-                                .populate('email');
+    try{
+        
+        const users = await User.find()
+                                    .populate('email');
+    
+        res.json({
+            ok: true,
+            users
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: error
+        });
+    }
 
-    res.json({
-        ok: true,
-        users
-    });
 }
 
 const getUserById = async( req, res = response ) => {
@@ -33,7 +43,11 @@ const getUserById = async( req, res = response ) => {
         });
 
     }catch(error){
-        console.log(error)
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: error
+        });
     }
 
 
@@ -83,8 +97,6 @@ const updateUserPassword = async( req, res = response ) => {
             }
         )
 
-
-
         res.json({
             ok: true
         });
@@ -94,7 +106,7 @@ const updateUserPassword = async( req, res = response ) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'An error ocurred'
+            msg: error
         });
     }
 
@@ -160,7 +172,7 @@ const updateUser = async( req, res = response ) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'An error ocurred'
+            msg: error
         });
     }
 

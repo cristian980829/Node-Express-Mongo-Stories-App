@@ -4,15 +4,26 @@ const moment = require('moment');
 
 const getStories = async( req, res = response ) => {
 
-    const stories = await Storie.find()
-                                .populate('user','name');
+    try{
 
-    stories.sort((a,b) => moment(b.registration_date).format('X') - moment(a.registration_date).format('X'))
+        const stories = await Storie.find()
+                                    .populate('user','name');
+    
+        stories.sort((a,b) => moment(b.registration_date).format('X') - moment(a.registration_date).format('X'))
+    
+        res.json({
+            ok: true,
+            stories
+        });
 
-    res.json({
-        ok: true,
-        stories
-    });
+    } catch (error){
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'An error ocurred'
+        });
+    }
+
 }
 
 const createStorie = async ( req, res = response ) => {
