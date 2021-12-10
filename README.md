@@ -1,4 +1,4 @@
-# Backend StoriesApp
+# Backend - StoriesApp
 
 Express
 Node
@@ -14,4 +14,4 @@ Models
 Controller
 Middlewares
 
-cristian980829@gmail.com
+YOU CAN TEST THE FULL APP HERE: http://stories-react-app.herokuapp.com
